@@ -21,7 +21,6 @@ echo
 
 for FILE in $FILES; do 
      if [[ $FILE =~ $EXTENSIONS_REGEX ]]; then
-        echo -e "$TEXT_INFO" "Checking file: $FILE" "$TEXT_DEFAULT"
         ERRORS=""
         while IFS=: read -ra RESULT; do
             if [ "$RESULT" != "" ]; then
@@ -37,8 +36,6 @@ for FILE in $FILES; do
         if [ "$ERRORS" != "" ]; then
             ERRORS="$TEXT_ERROR Errors found in $TEXT_BOLD$FILE$TEXT_DEFAULT$ERRORS"
             echo -e "$ERRORS"
-        else
-            echo -e "$TEXT_INFO No errors found in $TEXT_BOLD$FILE$TEXT_DEFAULT\n"
         fi
      fi
 done
