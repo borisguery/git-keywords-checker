@@ -13,8 +13,31 @@ TEXT_INFO="\\033[1;32m"
 TEXT_ERROR="\\033[1;31m"
 TEXT_UNDERLINE="\\0033[4m"
 TEXT_BOLD="\\0033[1m"
+VERBOSE=false
 
 FILES=$(git diff-index --cached --name-only --diff-filter=ACMR HEAD)
+
+# Determine which version of sed to use BSD or GNU
+TMP_FOO_FILE=$(mktemp /tmp/output.XXXXXXXXXX)
+echo foo > $TMP_FOO_FILE
+$VERBOSE && echo -n "Checking for GNU-style sed -i..."
+sed -r 's/o/o/' $TMP_FOO_FILE &>/dev/null
+if test $? -ne 0 ; then
+    $VERBOSE && echo " (no)"
+    $VERBOSE && echo -n "Checking for BSD-style sed -i..."
+    sed -E 's/o/o/' $TMP_FOO_FILE &>/dev/null
+    if test $? -eq 0 ; then
+        $VERBOSE && echo " (yes)"
+        SED_EXTENDED_CMD="sed -E"
+    else
+        $VERBOSE && echo " (no)"
+        echo -e "$TEXT_ERROR" "Unable to determine sed version" "$TEXT_DEFAULT"
+    fi
+else
+    $VERBOSE && echo " (yes)"
+    SED_EXTENDED_CMD="sed -r"
+fi
+rm -f $TMP_FOO_FILE
 
 echo -e "\\033[1;33m""Keywords checker - pre-commit hook" "$TEXT_DEFAULT"
 echo
@@ -25,7 +48,7 @@ for FILE in $FILES; do
         while IFS=: read -ra RESULT; do
             if [ "$RESULT" != "" ]; then
                 ERRORS="$ERRORS\n\tline $TEXT_BOLD${RESULT[1]}$TEXT_DEFAULT: "
-                ERRORS="$ERRORS"$(sed -n ${RESULT[1]}p $FILE | sed -E "s/($KEYWORDS_REGEX)/\\$TEXT_UNDERLINE\1\\$TEXT_DEFAULT/g")
+                ERRORS="$ERRORS"$(sed -n ${RESULT[1]}p $FILE | SED_EXTENDED_CMD "s/($KEYWORDS_REGEX)/\\$TEXT_UNDERLINE\1\\$TEXT_DEFAULT/g")
                 if [ "$ERRORS_BUFFER" != "" ]; then
                     ERRORS_BUFFER="$ERRORS_BUFFER\n$ERRORS"
                 else
