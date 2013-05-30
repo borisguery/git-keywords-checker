@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Author: Boris Guéry <guery.b@gmail.com>
 # https://github.com/borisguery/git-keywords-checker
 
