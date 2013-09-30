@@ -48,7 +48,7 @@ for FILE in $FILES; do
         while IFS=: read -ra RESULT; do
             if [ "$RESULT" != "" ]; then
                 ERRORS="$ERRORS\n\tline $TEXT_BOLD${RESULT[1]}$TEXT_DEFAULT: "
-                ERRORS="$ERRORS"$(sed -n ${RESULT[1]}p $FILE | SED_EXTENDED_CMD "s/($KEYWORDS_REGEX)/\\$TEXT_UNDERLINE\1\\$TEXT_DEFAULT/g")
+                ERRORS="$ERRORS"$(sed -n ${RESULT[1]}p $FILE | $SED_EXTENDED_CMD "s/($KEYWORDS_REGEX)/\\$TEXT_UNDERLINE\1\\$TEXT_DEFAULT/g")
                 if [ "$ERRORS_BUFFER" != "" ]; then
                     ERRORS_BUFFER="$ERRORS_BUFFER\n$ERRORS"
                 else
