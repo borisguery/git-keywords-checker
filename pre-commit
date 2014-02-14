@@ -5,7 +5,7 @@
 # Add or remove keywords here
 KEYWORDS_REGEX="var_dump\(|die\(|Zend_Debug::|print_r\(|console\.(debug|info|log|warn)\("
 # Add extensions to check here
-EXTENSIONS_REGEX="(.php$|.phtml$|.js$)"
+EXTENSIONS_REGEX="(.php$|.phtml$|.js$|.tpl$)"
 
 ERRORS_BUFFER=""
 TEXT_DEFAULT="\\033[0;39m"
