@@ -3,7 +3,7 @@
 # https://github.com/borisguery/git-keywords-checker
 
 # Add or remove keywords here
-KEYWORDS_REGEX="var_dump\(|die\(|Zend_Debug::|print_r\(|console\.(debug|info|log|warn)\("
+KEYWORDS_REGEX="var_dump\(|die\(|Mage::log\(|Zend_Debug::|print_r\(|console\.(debug|info|log|warn)\("
 # Add extensions to check here
 EXTENSIONS_REGEX="(.php$|.phtml$|.js$)"
 
